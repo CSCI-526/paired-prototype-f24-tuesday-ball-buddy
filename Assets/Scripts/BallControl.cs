@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
-    private float jumpForce = 4000f;  // Adjustable jump force
-    private float moveForce = 100f;  // Adjustable movement force for WASD
+    private float jumpForce = 5000f;  
+    private float moveForce = 100f;  
     private bool onBridge = false;  
 
     private PlatformControl currentPlatform;
@@ -37,8 +37,8 @@ public class BallControl : MonoBehaviour
     
     void HandleMovement()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        float moveHorizontal = Input.GetKey(KeyCode.D) ? 1f : Input.GetKey(KeyCode.A) ? -1f : 0f;
+        float moveVertical = Input.GetKey(KeyCode.W) ? 1f : Input.GetKey(KeyCode.S) ? -1f : 0f;
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * moveForce * Time.deltaTime * 1000);  // Use moveForce for WASD movement
@@ -51,10 +51,18 @@ public class BallControl : MonoBehaviour
         {
             if (currentPlatform != null)
             {
+                ChangeColor(currentPlatform.gameObject, Color.white);  // Reset color to white
                 currentPlatform.SetActive(false);
             }
             currentPlatform = platform;
             currentPlatform.SetActive(true);
+            ChangeColor(currentPlatform.gameObject, Color.green);  // Change color to green
+
+            // Reset the color of the current platform when hitting a bridge
+            if (currentBridge != null)
+            {
+                ChangeColor(currentBridge.gameObject, Color.white);  // Reset color to white
+            }
         }
 
         BridgeControl bridge = collision.gameObject.GetComponent<BridgeControl>();
@@ -66,6 +74,13 @@ public class BallControl : MonoBehaviour
             }
             currentBridge = bridge;
             currentBridge.SetActive(true);
+            ChangeColor(currentBridge.gameObject, Color.blue);  // Change color to green
+
+            // Reset the color of the current platform when hitting a bridge
+            if (currentPlatform != null)
+            {
+                ChangeColor(currentPlatform.gameObject, Color.white);  // Reset color to white
+            }
         }
         
         // Check if the colliding object has the "Bridge" tag
@@ -81,6 +96,15 @@ public class BallControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Bridge"))
         {
             onBridge = false;
+        }
+    }
+
+    void ChangeColor(GameObject obj, Color color)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.material.color = color;
         }
     }
 }

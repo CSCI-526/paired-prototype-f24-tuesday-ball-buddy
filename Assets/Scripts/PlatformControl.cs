@@ -6,14 +6,6 @@ public class PlatformControl : MonoBehaviour
 {
     private float sensitivity = 30f; 
     private bool isActive = false;
-    private Rigidbody rb;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true; // Make the platform kinematic
-    }
 
     void Update()
     {

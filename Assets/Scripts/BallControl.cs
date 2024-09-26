@@ -9,6 +9,7 @@ public class BallControl : MonoBehaviour
     private bool onBridge = false;  
 
     private PlatformControl currentPlatform;
+    private BridgeControl currentBridge;
     private Rigidbody rb;
 
     void Start()
@@ -56,6 +57,17 @@ public class BallControl : MonoBehaviour
             currentPlatform.SetActive(true);
         }
 
+        BridgeControl bridge = collision.gameObject.GetComponent<BridgeControl>();
+        if (bridge != null)
+        {
+            if (currentBridge != null)
+            {
+                currentBridge.SetActive(false);
+            }
+            currentBridge = bridge;
+            currentBridge.SetActive(true);
+        }
+        
         // Check if the colliding object has the "Bridge" tag
         if (collision.gameObject.CompareTag("Bridge"))
         {

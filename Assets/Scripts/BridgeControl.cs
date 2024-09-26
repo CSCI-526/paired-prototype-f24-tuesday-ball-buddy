@@ -13,8 +13,8 @@ public class BridgeControl : MonoBehaviour
     private bool shouldShrink = false;
     private bool isJKeyPressed = false;
 
-    // Add this to allow setting the expected tag in the Inspector
-    public string ballTag = "Sphere";
+    private bool isActive = false;
+
 
     // Update is called once per frame
     void Start()
@@ -38,8 +38,7 @@ public class BridgeControl : MonoBehaviour
         }
 
         // Shrinking logic
-        if (shouldShrink)
-        {
+        if (isActive) {
             if (isJKeyPressed)
             {
                 DecreaseSpeed();
@@ -47,22 +46,17 @@ public class BridgeControl : MonoBehaviour
 
             // Get the current scale of the object
             Vector3 currentScale = transform.localScale;
-
             // Reduce the x scale over time
             float newXScale = Mathf.Max(0, currentScale.x - currentShrinkSpeed * Time.deltaTime);
-
             // Apply the new scale to the object
             transform.localScale = new Vector3(newXScale, currentScale.y, currentScale.z);
-
             // If the x scale is zero, disable the object
             if (newXScale == 0)
             {
                 Debug.Log("Bridge fully shrunk, disabling object");
                 gameObject.SetActive(false); // Disable the bridge
             }
-        }
-        else
-        {
+        } else {
             Debug.Log("Not shrinking. shouldShrink is false.");
         }
     }
@@ -79,21 +73,8 @@ public class BridgeControl : MonoBehaviour
         Debug.Log($"Speed reset to normal: {currentShrinkSpeed}");
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void SetActive(bool active)
     {
-        Debug.Log($"Collision detected with: {collision.gameObject.name}, Tag: {collision.gameObject.tag}");
-        
-        // Check if the colliding object is the ball, either by tag or name
-        if (collision.gameObject.CompareTag(ballTag) || 
-            collision.gameObject.name.ToLower().Contains("ball") || 
-            collision.gameObject.name.ToLower().Contains("sphere"))
-        {
-            Debug.Log("Collision detected with ball. Starting to shrink.");
-            shouldShrink = true;
-        }
-        else
-        {
-            Debug.Log("Collision detected, but not with the ball. No shrinking started.");
-        }
+        isActive = active;
     }
 }

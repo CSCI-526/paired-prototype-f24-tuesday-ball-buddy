@@ -733,10 +733,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e9d5ec779c1542e2878edad020f092c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 4000
-  moveForce: 40
-  platform: {fileID: 1338988176}
-  stageIdentifier: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,7 +1267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fabff1e036cfd4b92a83dffdbb969952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 35
 --- !u!54 &1338988178
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1295,9 +1290,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 14
+  m_Constraints: 46
   m_CollisionDetection: 0
 --- !u!1 &1438011741
 GameObject:
@@ -1309,8 +1304,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1438011742}
   - component: {fileID: 1438011743}
-  - component: {fileID: 1438011745}
   - component: {fileID: 1438011744}
+  - component: {fileID: 1438011746}
   m_Layer: 0
   m_Name: Stage2
   m_TagString: Platform
@@ -1347,7 +1342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fabff1e036cfd4b92a83dffdbb969952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 20
 --- !u!54 &1438011744
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1371,23 +1365,31 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 32
   m_CollisionDetection: 0
---- !u!114 &1438011745
-MonoBehaviour:
+--- !u!65 &1438011746
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1438011741}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fabff1e036cfd4b92a83dffdbb969952, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensitivity: 20
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1739168311
 GameObject:
   m_ObjectHideFlags: 0

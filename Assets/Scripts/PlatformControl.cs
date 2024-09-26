@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlatformControl : MonoBehaviour
 {
-    public float sensitivity = 20f; // Increase sensitivity
+    private float sensitivity = 30f; 
     private bool isActive = false;
     private Rigidbody rb;
 

@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
-    public float jumpForce;  // Adjustable jump force
-    public float moveForce = 40f;  // Adjustable movement force for WASD
-    public Transform platform;  // Reference to the platform
-    public int stageIdentifier = 0;
+    private float jumpForce = 4000f;  // Adjustable jump force
+    private float moveForce = 100f;  // Adjustable movement force for WASD
+    private bool onBridge = false;  
 
     private PlatformControl currentPlatform;
     private Rigidbody rb;
-    private bool onBridge = false;  // Flag to check if the ball is on the bridge
 
     void Start()
     {
@@ -20,20 +18,19 @@ public class BallControl : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))  // Detect spacebar press
-        {
-            ApplyJump();
-        }
-
         if (onBridge)
         {
             HandleMovement();
+        } else {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ApplyJump();
+            }
         }
     }
 
     void ApplyJump()
     {
-        // Apply vertical impulse to the ball
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
     
@@ -43,7 +40,7 @@ public class BallControl : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rb.AddForce(movement * moveForce);  // Use moveForce for WASD movement
+        rb.AddForce(movement * moveForce * Time.deltaTime * 1000);  // Use moveForce for WASD movement
     }
     
     void OnCollisionEnter(Collision collision)
@@ -57,28 +54,6 @@ public class BallControl : MonoBehaviour
             }
             currentPlatform = platform;
             currentPlatform.SetActive(true);
-        }
-
-        // Check if the colliding object has the "Platform" tag
-        if (collision.gameObject.CompareTag("Platform"))
-        {
-            stageIdentifier = 1;
-            
-            // Attempt to make the platform glow
-            Renderer stageRenderer = collision.gameObject.GetComponent<Renderer>();
-            if (stageRenderer != null)
-            {
-                // Enable emission on the material
-                stageRenderer.material.EnableKeyword("_EMISSION");
-                
-                // Set the emission color (you can adjust this color as needed)
-                Color glowColor = Color.yellow; // Example: yellow glow
-                stageRenderer.material.SetColor("_EmissionColor", glowColor);
-            }
-            else
-            {
-                Debug.LogWarning("Renderer component not found on the platform.");
-            }
         }
 
         // Check if the colliding object has the "Bridge" tag

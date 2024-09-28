@@ -7,6 +7,18 @@ public class PlatformControl : MonoBehaviour
     private float sensitivity = 30f; 
     private bool isActive = false;
 
+    private Vector3 startPosition;
+    private Quaternion startRotation;
+    private bool startActiveState;
+
+    void Start()
+    {
+        // Store the initial state
+        startPosition = transform.position;
+        startRotation = transform.rotation;
+        startActiveState = gameObject.activeSelf;
+    }
+
     void Update()
     {
         if (isActive)
@@ -22,5 +34,14 @@ public class PlatformControl : MonoBehaviour
     public void SetActive(bool active)
     {
         isActive = active;
+    }
+
+    public void ResetPlatform()
+    {
+        // Reset position, rotation, and active state
+        transform.position = startPosition;
+        transform.rotation = startRotation;
+        gameObject.SetActive(startActiveState);
+        isActive = false;  // Ensure the platform is not active when reset
     }
 }

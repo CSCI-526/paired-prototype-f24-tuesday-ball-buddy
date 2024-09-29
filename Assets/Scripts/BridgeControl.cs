@@ -9,7 +9,7 @@ public class BridgeControl : MonoBehaviour
     public float widthIncreasePerPress;  // How much to increase width per key press
 
     private bool isJKeyPressed = false;
-    private bool isActive = false;
+    public bool isActive = false;
 
     private Vector3 startPosition;
     private Vector3 startScale;

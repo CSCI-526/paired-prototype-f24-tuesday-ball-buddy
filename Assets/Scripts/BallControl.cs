@@ -6,7 +6,7 @@ public class BallControl : MonoBehaviour
 {
     private float jumpForce = 5000f;  
     private float moveForce = 100f;  
-    private bool onBridge = false;  
+    public bool onBridge = false;  
     private bool canJump = true;  // New variable to track if the ball can jump
 
     private PlatformControl currentPlatform;
@@ -20,6 +20,8 @@ public class BallControl : MonoBehaviour
     private UIManager uiManager;
     private bool isGameWon = false;
     
+    private Renderer ballRenderer; // Add this variable at the class level
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,14 +37,16 @@ public class BallControl : MonoBehaviour
 
         uiManager = FindObjectOfType<UIManager>();
         if (uiManager == null)  // Changed from != to ==
-    {
-        Debug.LogError("UIManager not found in the scene!");
-    }
-    else
-    {
-        Debug.Log("UIManager found successfully");
-    }
+        {
+            Debug.LogError("UIManager not found in the scene!");
+        }
+        else
+        {
+            Debug.Log("UIManager found successfully");
+        }
         
+        // Add this line to get the ball's renderer
+        ballRenderer = GetComponent<Renderer>();
     }
 
     void Update()
@@ -92,12 +96,12 @@ public class BallControl : MonoBehaviour
             }
             currentPlatform = platform;
             currentPlatform.SetActive(true);
-            ChangeColor(currentPlatform.gameObject, Color.green);  // Change color to green
+            ChangeColor(currentPlatform.gameObject, new Color(0.4f, 0.8f, 0.4f));  // Brighter, minty green
 
-            // Reset the color of the current platform when hitting a bridge
-            if (currentBridge != null)
+            // Change the ball's color to a lighter blue when on a platform
+            if (ballRenderer != null)
             {
-                ChangeColor(currentBridge.gameObject, Color.white);  // Reset color to white
+                ballRenderer.material.color = new Color(0.7f, 0.8f, 1f);  // Lighter blue
             }
         }
 
@@ -106,11 +110,20 @@ public class BallControl : MonoBehaviour
         {
             if (currentBridge != null && currentBridge != bridge)
             {
+                ChangeColor(currentBridge.gameObject, Color.white);  // Reset previous bridge color
                 currentBridge.SetActive(false);
             }
             currentBridge = bridge;
             currentBridge.SetActive(true);
-            ChangeColor(bridge.gameObject, Color.blue);  // Change color to green
+            
+            // Change the bridge's color to a lighter shade of green
+            ChangeColor(currentBridge.gameObject, new Color(0.7f, 0.9f, 0.7f));  // Light pastel green
+
+            // Change the ball's color to a darker blue when on a bridge
+            if (ballRenderer != null)
+            {
+                ballRenderer.material.color = new Color(0.4f, 0.6f, 0.9f);  // Brighter, sky blue
+            }
 
             // Reset the color of the current platform when hitting a bridge
             if (currentPlatform != null)
@@ -161,6 +174,18 @@ public class BallControl : MonoBehaviour
         if (collision.gameObject.GetComponentInParent<BridgeControl>() != null)
         {
             onBridge = false;
+            
+            // Reset the bridge color to white when the ball leaves
+            if (currentBridge != null)
+            {
+                ChangeColor(currentBridge.gameObject, Color.white);
+            }
+            
+            // Reset the ball's color to white
+            if (ballRenderer != null)
+            {
+                ballRenderer.material.color = Color.white;
+            }
         }
     }
 

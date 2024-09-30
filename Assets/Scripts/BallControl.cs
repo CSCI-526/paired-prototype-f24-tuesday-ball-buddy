@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
-    private float jumpForce = 4000f;  
+    private float jumpForce = 3000f;  
     private float moveForce = 100f;  
     public bool onBridge = false;  
     private bool canJump = true;  // New variable to track if the ball can jump
@@ -13,7 +13,7 @@ public class BallControl : MonoBehaviour
     private BridgeControl currentBridge;
     private Rigidbody rb;
 
-    public float fallThreshold = -2f;  // Y position below which the ball is considered fallen
+    public float fallThreshold = -20f;  // Y position below which the ball is considered fallen
     private GameManager gameManager;
     private Vector3 startPosition;
 

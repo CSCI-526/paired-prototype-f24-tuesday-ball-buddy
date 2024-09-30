@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlatformControl : MonoBehaviour
 {
-    private float sensitivity = 40f; 
+    public float sensitivity = 40f;
     private bool isActive = false;
 
     private Vector3 startPosition;
     private Quaternion startRotation;
     private bool startActiveState;
     private Vector3 centerPoint;
+    private Vector3 currentRotation;
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class PlatformControl : MonoBehaviour
         startPosition = transform.position;
         startRotation = transform.rotation;
         startActiveState = gameObject.activeSelf;
+        currentRotation = transform.rotation.eulerAngles;
 
         // Calculate the center point
         CalculateCenterPoint();
@@ -47,18 +49,25 @@ public class PlatformControl : MonoBehaviour
                               Input.GetKey(KeyCode.DownArrow) ? -sensitivity * Time.deltaTime : 0f;
             float rotationZ = Input.GetKey(KeyCode.LeftArrow) ? sensitivity * Time.deltaTime :
                               Input.GetKey(KeyCode.RightArrow) ? -sensitivity * Time.deltaTime : 0f;
-            
-            // Create rotation quaternions
-            Quaternion rotationAroundX = Quaternion.AngleAxis(rotationX, Vector3.right);
-            Quaternion rotationAroundZ = Quaternion.AngleAxis(rotationZ, Vector3.forward);
 
-            // Combine rotations
-            Quaternion combinedRotation = rotationAroundX * rotationAroundZ;
+            // Update current rotation
+            currentRotation.x += rotationX;
+            currentRotation.z += rotationZ;
+
+            // Create rotation quaternion, keeping Y at 0
+            Quaternion targetRotation = Quaternion.Euler(currentRotation.x, 0f, currentRotation.z);
 
             // Apply rotation around the center point
-            transform.RotateAround(centerPoint, combinedRotation * Vector3.right, rotationX);
-            transform.RotateAround(centerPoint, combinedRotation * Vector3.forward, rotationZ);
+            RotateAroundPoint(targetRotation, centerPoint);
         }
+    }
+
+    void RotateAroundPoint(Quaternion targetRotation, Vector3 point)
+    {
+        Vector3 centerToPosition = transform.position - point;
+        centerToPosition = targetRotation * Quaternion.Inverse(transform.rotation) * centerToPosition;
+        transform.position = point + centerToPosition;
+        transform.rotation = targetRotation;
     }
 
     public void SetActive(bool active)
@@ -72,6 +81,7 @@ public class PlatformControl : MonoBehaviour
         transform.position = startPosition;
         transform.rotation = startRotation;
         gameObject.SetActive(startActiveState);
-        isActive = false;  // Ensure the platform is not active when reset
+        isActive = false;
+        currentRotation = startRotation.eulerAngles;
     }
 }

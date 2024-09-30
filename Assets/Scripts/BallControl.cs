@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
-    private float jumpForce = 7000f;  
+    private float jumpForce = 4000f;  
     private float moveForce = 200f;  
     public bool onBridge = false;  
     private bool canJump = true;  // New variable to track if the ball can jump
@@ -118,8 +118,8 @@ public class BallControl : MonoBehaviour
             currentBridge = bridge;
             currentBridge.SetActive(true);
             
-            // Keep the bridge color white
-            ChangeColor(currentBridge.gameObject, Color.white);
+            // Change the bridge color to gray
+            ChangeColor(currentBridge.gameObject, new Color(0.5f, 0.5f, 0.5f));  // Gray
 
             // Change the ball's color to royal blue when on a bridge
             if (ballRenderer != null)

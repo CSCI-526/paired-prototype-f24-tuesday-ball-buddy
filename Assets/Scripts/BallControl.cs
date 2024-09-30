@@ -13,7 +13,7 @@ public class BallControl : MonoBehaviour
     private BridgeControl currentBridge;
     private Rigidbody rb;
 
-    public float fallThreshold = -20f;  // Y position below which the ball is considered fallen
+    public float fallThreshold = -50f;  // Y position below which the ball is considered fallen
     private GameManager gameManager;
     private Vector3 startPosition;
 

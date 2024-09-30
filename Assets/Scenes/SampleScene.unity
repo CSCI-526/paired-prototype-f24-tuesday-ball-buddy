@@ -262,7 +262,7 @@ Transform:
   m_GameObject: {fileID: 108369927}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.8, y: -16.007969, z: 131.5}
+  m_LocalPosition: {x: 22.8, y: -16.007969, z: 138}
   m_LocalScale: {x: 25, y: 2, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1446,7 +1446,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.82, y: 5.46, z: 30.27}
-  m_LocalScale: {x: 6.5, y: 2, z: 32.162003}
+  m_LocalScale: {x: 6.5, y: 3.1170454, z: 32.162003}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1744,7 +1744,7 @@ Transform:
   m_GameObject: {fileID: 669540903}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.72, y: -8.24, z: 131.38}
+  m_LocalPosition: {x: -5.82, y: 20.08, z: -2.34}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3009,7 +3009,7 @@ Transform:
   m_GameObject: {fileID: 1171988991}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.510517, y: -16.67, z: 164.1}
+  m_LocalPosition: {x: 18.510517, y: -16.67, z: 170.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3533,8 +3533,8 @@ GameObject:
   - component: {fileID: 1338988175}
   - component: {fileID: 1338988174}
   - component: {fileID: 1338988173}
-  - component: {fileID: 1338988177}
   - component: {fileID: 1338988178}
+  - component: {fileID: 1338988177}
   m_Layer: 0
   m_Name: Stage 1
   m_TagString: Platform
@@ -3622,7 +3622,7 @@ Transform:
   m_GameObject: {fileID: 1338988172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: 0, y: 10, z: -0.3}
   m_LocalScale: {x: 25, y: 2, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3632,6 +3632,7 @@ Transform:
   - {fileID: 1986369833}
   - {fileID: 1129822510}
   - {fileID: 207272278}
+  - {fileID: 445751529}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1338988177
@@ -3816,9 +3817,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1438011742}
-  - component: {fileID: 1438011743}
   - component: {fileID: 1438011744}
   - component: {fileID: 1438011746}
+  - component: {fileID: 1438011743}
   m_Layer: 0
   m_Name: Stage2
   m_TagString: Platform

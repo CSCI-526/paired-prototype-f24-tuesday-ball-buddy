@@ -10,6 +10,7 @@ public class PlatformControl : MonoBehaviour
     private Vector3 startPosition;
     private Quaternion startRotation;
     private bool startActiveState;
+    private Vector3 centerPoint;
 
     void Start()
     {
@@ -17,6 +18,24 @@ public class PlatformControl : MonoBehaviour
         startPosition = transform.position;
         startRotation = transform.rotation;
         startActiveState = gameObject.activeSelf;
+
+        // Calculate the center point
+        CalculateCenterPoint();
+    }
+
+    void CalculateCenterPoint()
+    {
+        Vector3 sum = Vector3.zero;
+        int count = 0;
+
+        // Include this object and all its children
+        foreach (Transform child in GetComponentsInChildren<Transform>())
+        {
+            sum += child.position;
+            count++;
+        }
+
+        centerPoint = sum / count;
     }
 
     void Update()
@@ -29,8 +48,16 @@ public class PlatformControl : MonoBehaviour
             float rotationZ = Input.GetKey(KeyCode.LeftArrow) ? sensitivity * Time.deltaTime :
                               Input.GetKey(KeyCode.RightArrow) ? -sensitivity * Time.deltaTime : 0f;
             
-            // Apply rotation around local X and Z axes only
-            transform.Rotate(rotationX, 0, rotationZ, Space.Self);
+            // Create rotation quaternions
+            Quaternion rotationAroundX = Quaternion.AngleAxis(rotationX, Vector3.right);
+            Quaternion rotationAroundZ = Quaternion.AngleAxis(rotationZ, Vector3.forward);
+
+            // Combine rotations
+            Quaternion combinedRotation = rotationAroundX * rotationAroundZ;
+
+            // Apply rotation around the center point
+            transform.RotateAround(centerPoint, combinedRotation * Vector3.right, rotationX);
+            transform.RotateAround(centerPoint, combinedRotation * Vector3.forward, rotationZ);
         }
     }
 

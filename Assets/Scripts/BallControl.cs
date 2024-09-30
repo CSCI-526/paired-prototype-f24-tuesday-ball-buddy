@@ -21,6 +21,7 @@ public class BallControl : MonoBehaviour
     private bool isGameWon = false;
     
     private Renderer ballRenderer; // Add this variable at the class level
+    public LayerMask goalLayer; 
 
     void Start()
     {
@@ -147,8 +148,9 @@ public class BallControl : MonoBehaviour
             canJump = true;  // Allow jumping again
         }
         Debug.Log($"Collision detected with: {collision.gameObject.name}, Tag: {collision.gameObject.tag}");
-        // Check if the ball hit the Goal
-        if (collision.gameObject.CompareTag("Goal"))
+        
+        // Check if the collision is with an object on the Goal layer
+        if ((goalLayer.value & (1 << collision.gameObject.layer)) != 0)
         {
             Debug.Log("Ball hit the Goal");
             if (uiManager != null)
@@ -156,7 +158,6 @@ public class BallControl : MonoBehaviour
                 Debug.Log("Calling WinGame");
                 WinGame();
             }
-            // Optionally, you can add more win logic here (e.g., freeze the ball, play a sound, etc.)
         }
     }
 

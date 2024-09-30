@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlatformControl : MonoBehaviour
 {
-    private float sensitivity = 30f; 
+    private float sensitivity = 40f; 
     private bool isActive = false;
 
     private Vector3 startPosition;
@@ -23,11 +23,14 @@ public class PlatformControl : MonoBehaviour
     {
         if (isActive)
         {
+            // Calculate rotation for X and Z axes
             float rotationX = Input.GetKey(KeyCode.UpArrow) ? sensitivity * Time.deltaTime :
                               Input.GetKey(KeyCode.DownArrow) ? -sensitivity * Time.deltaTime : 0f;
             float rotationZ = Input.GetKey(KeyCode.LeftArrow) ? sensitivity * Time.deltaTime :
                               Input.GetKey(KeyCode.RightArrow) ? -sensitivity * Time.deltaTime : 0f;
-            transform.Rotate(rotationX, 0, rotationZ);
+            
+            // Apply rotation around local X and Z axes only
+            transform.Rotate(rotationX, 0, rotationZ, Space.Self);
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
-    private float jumpForce = 5000f;  
+    private float jumpForce = 4000f;  
     private float moveForce = 100f;  
     public bool onBridge = false;  
     private bool canJump = true;  // New variable to track if the ball can jump
@@ -98,11 +98,12 @@ public class BallControl : MonoBehaviour
             currentPlatform.SetActive(true);
             ChangeColor(currentPlatform.gameObject, new Color(0.4f, 0.8f, 0.4f));  // Brighter, minty green
 
-            // Change the ball's color to a lighter blue when on a platform
+            // Change the ball's color to white when on a platform
             if (ballRenderer != null)
             {
-                ballRenderer.material.color = new Color(0.7f, 0.8f, 1f);  // Lighter blue
+                ballRenderer.material.color = Color.white;  // White color
             }
+            onBridge = false;
         }
 
         BridgeControl bridge = collision.gameObject.GetComponentInParent<BridgeControl>();
@@ -116,13 +117,13 @@ public class BallControl : MonoBehaviour
             currentBridge = bridge;
             currentBridge.SetActive(true);
             
-            // Change the bridge's color to a lighter shade of green
-            ChangeColor(currentBridge.gameObject, new Color(0.7f, 0.9f, 0.7f));  // Light pastel green
+            // Keep the bridge color white
+            ChangeColor(currentBridge.gameObject, Color.white);
 
-            // Change the ball's color to a darker blue when on a bridge
+            // Change the ball's color to royal blue when on a bridge
             if (ballRenderer != null)
             {
-                ballRenderer.material.color = new Color(0.4f, 0.6f, 0.9f);  // Brighter, sky blue
+                ballRenderer.material.color = new Color(0.25f, 0.41f, 0.88f);  // Royal blue
             }
 
             // Reset the color of the current platform when hitting a bridge
@@ -173,9 +174,7 @@ public class BallControl : MonoBehaviour
         // Check if the exiting object is part of a bridge
         if (collision.gameObject.GetComponentInParent<BridgeControl>() != null)
         {
-            onBridge = false;
-            
-            // Reset the bridge color to white when the ball leaves
+            // Bridge color remains white when the ball leaves
             if (currentBridge != null)
             {
                 ChangeColor(currentBridge.gameObject, Color.white);

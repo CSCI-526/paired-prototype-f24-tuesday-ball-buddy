@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
-    private float jumpForce = 3000f;  
+    private float jumpForce = 7000f;  
     private float moveForce = 200f;  
     public bool onBridge = false;  
     private bool canJump = true;  // New variable to track if the ball can jump

@@ -208,9 +208,6 @@ public class BallControl : MonoBehaviour
         {
             isGameWon = true;
             Debug.Log("Game is won");
-            
-
-
             // Show win message
         if (uiManager != null)
             {

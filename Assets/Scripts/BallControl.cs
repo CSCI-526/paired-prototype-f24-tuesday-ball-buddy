@@ -15,12 +15,20 @@ public class BallControl : MonoBehaviour
     private Rigidbody rb;
     private Renderer ballRenderer; 
     private HUDManager hudManager; 
+    private CheckpointManager checkpointManager;
+    private Vector3 lastCheckpoint;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         ballRenderer = GetComponent<Renderer>();
         hudManager = FindObjectOfType<HUDManager>();
+
+        checkpointManager = CheckpointManager.Instance;
+        if (checkpointManager == null)
+        {
+            Debug.LogError("CheckpointManager not found in the scene!");
+        }
     }
 
     void Update()
@@ -40,7 +48,25 @@ public class BallControl : MonoBehaviour
         if (transform.position.y < fallThreshold)
         {
             Debug.Log("Ball fell off");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            if (checkpointManager == null)
+            {
+                Debug.LogError("CheckpointManager is null");
+            }
+            else
+            {
+                Debug.Log($"HasCheckpoint: {checkpointManager.HasCheckpoint()}, LastCheckpoint: {checkpointManager.GetLastCheckpoint()}");
+            }
+
+            if (checkpointManager != null && checkpointManager.HasCheckpoint())
+            {
+                Debug.Log("Restarting from checkpoint");
+                RestartFromCheckpoint();
+            }
+            else
+            {
+                Debug.Log("Restarting game");
+                RestartGame();
+            }
         }
     }
 
@@ -127,6 +153,7 @@ public class BallControl : MonoBehaviour
                 rb.velocity = Vector3.zero;
             }
         }
+        
     }
 
     void ChangeColor(GameObject obj, Color color)
@@ -138,6 +165,46 @@ public class BallControl : MonoBehaviour
             {
                 renderer.material.color = color;
             }
+        }
+    }
+
+    public void SetCheckpoint(Vector3 position)
+    {
+        checkpointManager.SetCheckpoint(position);
+        Debug.Log("Checkpoint set at: " + position);
+    }
+
+    void RestartFromCheckpoint()
+    {
+        if (checkpointManager != null && checkpointManager.HasCheckpoint())
+        {
+            transform.position = checkpointManager.GetLastCheckpoint();
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            Debug.Log("Restarting from checkpoint: " + transform.position);
+        }
+        else
+        {
+            Debug.LogError("No checkpoint set or CheckpointManager is null");
+            RestartGame(); 
+        }
+    }
+
+    void RestartGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    public void SetCheckpoint()
+    {
+        if (checkpointManager != null)
+        {
+            checkpointManager.SetCheckpoint(transform.position);
+            Debug.Log("Checkpoint set at: " + transform.position);
+        }
+        else
+        {
+            Debug.LogError("CheckpointManager is null");
         }
     }
 }

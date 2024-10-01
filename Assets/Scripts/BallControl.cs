@@ -6,17 +6,14 @@ public class BallControl : MonoBehaviour
 {
     private float jumpForce = 4000f;  
     private float moveForce = 200f;  
+    private float fallThreshold = -30f;  
     public bool onBridge = false;  
     private bool canJump = true;  
-    public float fallThreshold = -50f;  
 
     private PlatformControl currentPlatform;
     private BridgeControl currentBridge;
     private Rigidbody rb;
-
     private Renderer ballRenderer; 
-    public LayerMask goalLayer; 
-
     private HUDManager hudManager; 
 
     void Start()
@@ -87,7 +84,7 @@ public class BallControl : MonoBehaviour
             
             if (currentBridge != null)
             {
-                ChangeColor(currentBridge.gameObject, Color.white);  // Reset color to white
+                ChangeColor(currentBridge.gameObject, Color.white);  // White
             }
         }
 
@@ -95,28 +92,29 @@ public class BallControl : MonoBehaviour
         BridgeControl bridge = collision.gameObject.GetComponentInParent<BridgeControl>();
         if (bridge != null)
         {
+            onBridge = true;
+            canJump = false;
+
             if (currentBridge != null && currentBridge != bridge)
             {
-                ChangeColor(currentBridge.gameObject, Color.white);  // Reset previous bridge color
+                ChangeColor(currentBridge.gameObject, Color.white);  
                 currentBridge.SetActive(false);
             }
+
             currentBridge = bridge;
             currentBridge.SetActive(true);
-            
-            ChangeColor(currentBridge.gameObject, Color.gray);  // Gray
 
             if (ballRenderer != null)
             {
                 ballRenderer.material.color = new Color(0.25f, 0.41f, 0.88f);  // Blue
             }
 
-            // Reset the color of the current platform when hitting a bridge
+            ChangeColor(currentBridge.gameObject, Color.gray);  // Gray
+
             if (currentPlatform != null)
             {
-                ChangeColor(currentPlatform.gameObject, Color.white);  // Reset color to white
+                ChangeColor(currentPlatform.gameObject, Color.white);  // White
             }
-
-            onBridge = true;
         }
         
         //GOAL
@@ -136,7 +134,6 @@ public class BallControl : MonoBehaviour
         Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)
         {
-            // Skip color change for objects tagged as "Goal"
             if (!renderer.gameObject.CompareTag("Goal"))
             {
                 renderer.material.color = color;

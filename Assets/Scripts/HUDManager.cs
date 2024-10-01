@@ -31,7 +31,7 @@ public class HUDManager : MonoBehaviour
     private void UpdatePlayer2HUD()
     {
         string controls = !ballControl.onBridge ? "[ Arrows ]  Tilt" : "[ J ]  Stop Shrinking";
-        string colorTag = ballControl.onBridge ? "<color=#B2FFB2>" : "<color=#66CC66>"; // Light green when on bridge, darker green when not on bridge (platform active)
+        string colorTag = ballControl.onBridge ? "<color=white>" : "<color=#66CC66>";
         player2HUD.text = $"{colorTag}Player 2\n<size=60%>{controls}</size></color>";
     }
 

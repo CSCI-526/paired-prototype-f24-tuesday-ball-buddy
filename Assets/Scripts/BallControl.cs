@@ -135,7 +135,7 @@ public class BallControl : MonoBehaviour
                 ballRenderer.material.color = new Color(0.25f, 0.41f, 0.88f);  // Blue
             }
 
-            ChangeColor(currentBridge.gameObject, Color.gray);  // Gray
+            ChangeColor(currentBridge.gameObject, Color.magenta);  // Gray
 
             if (currentPlatform != null)
             {

@@ -4,9 +4,9 @@ public class CheckpointManager : MonoBehaviour
 {
     public static CheckpointManager Instance { get; private set; }
     private Vector3 lastCheckpoint;
-    private const string CHECKPOINT_X = "CheckpointX";
-    private const string CHECKPOINT_Y = "CheckpointY";
-    private const string CHECKPOINT_Z = "CheckpointZ";
+    private const string CHECKPOINT_X = "6.0";
+    private const string CHECKPOINT_Y = "-4.085";
+    private const string CHECKPOINT_Z = "57.6";
 
     void Awake()
     {
@@ -35,11 +35,15 @@ public class CheckpointManager : MonoBehaviour
 
     public void SetCheckpoint(Vector3 position)
     {
+        position = new Vector3(8.55f, -4.1f, 57f);
         lastCheckpoint = position;
         PlayerPrefs.SetFloat(CHECKPOINT_X, position.x);
         PlayerPrefs.SetFloat(CHECKPOINT_Y, position.y);
         PlayerPrefs.SetFloat(CHECKPOINT_Z, position.z);
         PlayerPrefs.Save();
+        // log the checkpoint position
+        Debug.Log("Checkpoint set at: " + position);
+        
     }
 
     public Vector3 GetLastCheckpoint() => lastCheckpoint;

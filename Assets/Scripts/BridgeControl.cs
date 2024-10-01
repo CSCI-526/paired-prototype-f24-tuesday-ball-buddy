@@ -6,8 +6,13 @@ public class BridgeControl : MonoBehaviour
 {
     private float shrinkSpeed = 2f;
     private float widthIncreasePerPress = 0.25f;  
-    private bool isJKeyPressed = false;
     private bool isActive = false;
+    private Vector3 initialScale;
+
+    void Start()
+    {
+        initialScale = transform.localScale;
+    }
 
     void Update()
     {
@@ -27,7 +32,6 @@ public class BridgeControl : MonoBehaviour
 
             if (transform.localScale.x == 0)
             {
-                Debug.Log("Bridge fully shrunk");
                 gameObject.SetActive(false); 
             }
         } 
@@ -36,5 +40,12 @@ public class BridgeControl : MonoBehaviour
     public void SetActive(bool active)
     {
         isActive = active;
+    }
+
+    public void ResetBridge()
+    {
+        // Reset bridge to its initial state
+        transform.localScale = initialScale;
+        SetActive(false);
     }
 }

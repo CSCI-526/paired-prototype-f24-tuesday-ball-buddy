@@ -6,14 +6,17 @@ public class PlatformControl : MonoBehaviour
 {
     private float sensitivity = 40f;
     private bool isActive = false;
+    private Vector3 initialPosition;
 
-    private Quaternion startRotation;
     private Vector3 centerPoint;
     private Vector3 currentRotation;
 
     void Start()
     {
         CalculateCenterPoint();
+        // Store the initial position
+        initialPosition = transform.position;
+        currentRotation = Vector3.zero;
     }
 
     void Update()
@@ -59,5 +62,15 @@ public class PlatformControl : MonoBehaviour
     public void SetActive(bool active)
     {
         isActive = active;
+    }
+
+    public void ResetPlatform()
+    {
+        // Reset platform to its initial position and flat rotation
+        SetActive(false);
+        transform.position = initialPosition;
+        transform.rotation = Quaternion.identity; // Set to flat rotation
+        currentRotation = Vector3.zero; // Reset the currentRotation
+        CalculateCenterPoint(); // Recalculate the center point
     }
 }

@@ -16,7 +16,7 @@ public class BallControl : MonoBehaviour
     private Renderer ballRenderer; 
     private HUDManager hudManager; 
     private CheckpointManager checkpointManager;
-    private Vector3 lastCheckpoint;
+    
 
     void Start()
     {
@@ -178,9 +178,34 @@ public class BallControl : MonoBehaviour
     {
         if (checkpointManager != null && checkpointManager.HasCheckpoint())
         {
+            // Reset ball position and physics
             transform.position = checkpointManager.GetLastCheckpoint();
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+
+            // Reset platforms
+            PlatformControl[] platforms = FindObjectsOfType<PlatformControl>();
+            foreach (PlatformControl platform in platforms)
+            {
+                platform.ResetPlatform();
+            }
+
+            // Reset bridges
+            BridgeControl[] bridges = FindObjectsOfType<BridgeControl>();
+            foreach (BridgeControl bridge in bridges)
+            {
+                bridge.ResetBridge();
+            }
+
+            // Reset the color of the current platform and bridge
+            ResetCurrentPlatformAndBridgeColor();
+
+            // Reset current platform and bridge
+            currentPlatform = null;
+            currentBridge = null;
+            onBridge = false;
+            canJump = true;
+
             Debug.Log("Restarting from checkpoint: " + transform.position);
         }
         else
@@ -190,8 +215,25 @@ public class BallControl : MonoBehaviour
         }
     }
 
+    void ResetCurrentPlatformAndBridgeColor()
+    {
+        if (currentPlatform != null)
+        {
+            ChangeColor(currentPlatform.gameObject, Color.white);
+        }
+
+        if (currentBridge != null)
+        {
+            ChangeColor(currentBridge.gameObject, Color.white);
+        }
+    }
+
     void RestartGame()
     {
+        if (checkpointManager != null)
+        {
+            checkpointManager.ResetCheckpoint();
+        }
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 

@@ -10,6 +10,8 @@ public class CheckpointManager : MonoBehaviour
 
     void Awake()
     {
+        ResetCheckpoint();
+        
         if (Instance == null)
         {
             Instance = this;

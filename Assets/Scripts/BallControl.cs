@@ -58,7 +58,7 @@ public class BallControl : MonoBehaviour
         float moveVertical = Input.GetKey(KeyCode.W) ? 1f : Input.GetKey(KeyCode.S) ? -1f : 0f;
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rb.AddForce(movement * moveForce * Time.deltaTime * 1000);  // Use moveForce for WASD movement
+        rb.AddForce(movement * moveForce * Time.deltaTime * 1000);  
     }
     
     void OnCollisionEnter(Collision collision)

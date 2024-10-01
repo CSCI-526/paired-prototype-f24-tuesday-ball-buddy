@@ -8,11 +8,16 @@ public class HUDManager : MonoBehaviour
     public TMP_Text player1HUD;
     public TMP_Text player2HUD;
     public BallControl ballControl;
+    
+    private bool gameWon = false;
 
     private void Update()
     {
-        UpdatePlayer1HUD();
-        UpdatePlayer2HUD();
+        if (!gameWon)
+        {
+            UpdatePlayer1HUD();
+            UpdatePlayer2HUD();
+        }
     }
 
     private void UpdatePlayer1HUD()
@@ -28,5 +33,12 @@ public class HUDManager : MonoBehaviour
         string controls = !ballControl.onBridge ? "[ Arrows ]  Tilt" : "[ J ]  Stop Shrinking";
         string colorTag = ballControl.onBridge ? "<color=#B2FFB2>" : "<color=#66CC66>"; // Light green when on bridge, darker green when not on bridge (platform active)
         player2HUD.text = $"{colorTag}Player 2\n<size=60%>{controls}</size></color>";
+    }
+
+    public void ShowWinMessage()
+    {
+        gameWon = true;
+        player1HUD.text = "<color=#FFD700>You Won!</color>";
+        player2HUD.text = "<color=#FFD700>You Won!</color>";
     }
 }

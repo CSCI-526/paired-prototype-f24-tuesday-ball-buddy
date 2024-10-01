@@ -4,85 +4,37 @@ using UnityEngine;
 
 public class BridgeControl : MonoBehaviour
 {
-    // Speed at which the object shrinks
-    public float shrinkSpeed;
-    public float widthIncreasePerPress;  // How much to increase width per key press
-
+    private float shrinkSpeed = 2f;
+    private float widthIncreasePerPress = 0.25f;  
     private bool isJKeyPressed = false;
-    public bool isActive = false;
-
-    private Vector3 startPosition;
-    private Vector3 startScale;
-    private bool startActiveState;
-
-    // Update is called once per frame
-    void Start()
-    {
-        startPosition = transform.position;
-        startScale = transform.localScale;
-        startActiveState = gameObject.activeSelf;
-    }
+    private bool isActive = false;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            isJKeyPressed = true;
-            Debug.Log("J key pressed");
-        }
-        else if (Input.GetKeyUp(KeyCode.J))
-        {
-            isJKeyPressed = false;
-            Debug.Log("J key released");
-        }
-
-        // Shrinking logic
         if (isActive) {
-            // Get the current scale of the object
             Vector3 currentScale = transform.localScale;
 
-            // Reduce the x scale over time
-            float newXScale = Mathf.Max(0, currentScale.x - shrinkSpeed * Time.deltaTime);
-            transform.localScale = new Vector3(newXScale, currentScale.y, currentScale.z);
-            
-
-            if (isJKeyPressed)
+            if (Input.GetKeyDown(KeyCode.J))
             {
-                // Add width when J key is pressed
-                float newWidth = currentScale.x + widthIncreasePerPress * Time.deltaTime;
+                float newWidth = currentScale.x + widthIncreasePerPress;
                 transform.localScale = new Vector3(newWidth, currentScale.y, currentScale.z);
-                
+            } 
+            else 
+            {
+                float newXScale = Mathf.Max(0, currentScale.x - shrinkSpeed * Time.deltaTime);
+                transform.localScale = new Vector3(newXScale, currentScale.y, currentScale.z);
             }
 
-            // If the x scale is zero, disable the object
             if (transform.localScale.x == 0)
             {
-                // Debug.Log("Bridge fully shrunk, disabling object");
-                gameObject.SetActive(false); // Disable the bridge
+                Debug.Log("Bridge fully shrunk");
+                gameObject.SetActive(false); 
             }
-        } else {
-            // Debug.Log("Not shrinking. isActive is false.");
-        }
+        } 
     }
 
     public void SetActive(bool active)
     {
         isActive = active;
     }
-    public void ResetBridge()
-{
-    transform.position = startPosition;
-    transform.localScale = startScale;
-    gameObject.SetActive(startActiveState);
-    isActive = false;  // Ensure the bridge is not active when reset
-
-    // Set all bridge parts to white
-    Renderer[] renderers = GetComponentsInChildren<Renderer>();
-    foreach (Renderer renderer in renderers)
-    {
-        renderer.material.color = Color.white;
-    }
-
-    Debug.Log($"Bridge {gameObject.name} reset to initial state and color set to white");
-}
 }

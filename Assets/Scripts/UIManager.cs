@@ -3,7 +3,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public TMP_Text wonMessage;  // Change this line
+    public TMP_Text wonMessage;  
 
     void Start()
     {
